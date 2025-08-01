@@ -1,6 +1,5 @@
-'react';
 
-const Layout = () => {
+const RemoveBackground = () => {
     return (
         <div>
             
@@ -8,4 +7,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default RemoveBackground;
