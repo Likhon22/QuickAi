@@ -37,7 +37,7 @@ export const assets: TAssetType = {
   arrow_icon,
 };
 
-type TAiTools = {
+export type TAiTools = {
   title: string;
   description: string;
   Icon: JSX.ElementType;

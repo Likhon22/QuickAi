@@ -8,7 +8,10 @@ import WriteArticles from "./pages/WriteArticles";
 import RemoveBackground from "./pages/RemoveBackground";
 import RemoveObject from "./pages/RemoveObject";
 import ReviewResume from "./pages/ReviewResume";
+import { ScrollTrigger } from "gsap/all";
+import gsap from "gsap";
 
+gsap.registerPlugin(ScrollTrigger);
 const App = () => {
   return (
     <Routes>

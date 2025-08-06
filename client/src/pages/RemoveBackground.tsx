@@ -1,10 +1,9 @@
-
 const RemoveBackground = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <div>
+      <p>Remove Background</p>
+    </div>
+  );
 };
 
 export default RemoveBackground;

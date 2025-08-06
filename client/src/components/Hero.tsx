@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { assets } from "../assets/assets";
 import QButton from "./ui/QButton";
 
 const Hero = () => {
@@ -14,11 +16,17 @@ const Hero = () => {
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-4 text-sm max-sm:text-xs mt-12">
-        <QButton className="rounded-lg " text="Start Creating now" />
+        <Link to="/ai">
+          <QButton className="rounded-lg " text="Start Creating now" />
+        </Link>
         <QButton
-          className="bg-white rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 hover:text-gray-600"
+          className="bg-white !text-gray-600 hover:!bg-gray-100 !hover:text-gray-800 border border-gray-300 rounded-lg"
           text="Watch Demo"
         />
+      </div>
+      <div className="flex items-center gap-4 mt-8 mx-auto ">
+        <img src={assets.user_group} alt="user" className="h-8 " />
+        <p className="text-gray-600">Trusted by 10k+ people</p>
       </div>
     </div>
   );
