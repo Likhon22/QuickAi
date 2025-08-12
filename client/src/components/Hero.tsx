@@ -4,7 +4,7 @@ import QButton from "./ui/QButton";
 
 const Hero = () => {
   return (
-    <div className="px-4  sm:px-20 xl:px-32 relative inline-flex flex-col w-full justify-center bg-[url(/gradientBackground.png)] min-h-screen ">
+    <div className="px-4  sm:px-20 xl:px-32 relative inline-flex flex-col w-full justify-center bg-gradient-to-r from-purple-100 via-violet-200 to-blue-200 min-h-screen  ">
       <div className="flex justify-center items-center flex-col text-center gap-4">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold mx-auto leading-[1.2]">
           Create amazing content <br /> with{" "}
