@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { app } from "./app.js";
 import DatabaseConfig from "./app/config/database.js";
 import config from "./app/config/index.js";
