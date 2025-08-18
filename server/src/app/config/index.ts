@@ -6,6 +6,7 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 export default {
   node_env: process.env.NODE_ENV || 'development',
+  cors_origin: process.env.CORS_ORIGIN,
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
   rate_limit_max: parseInt(process.env.RATE_LIMIT_MAX || '100', 10),
