@@ -1,17 +1,17 @@
-import { neon } from "@neondatabase/serverless";
-import type { NeonQueryFunction } from "@neondatabase/serverless";
-import config from "./index.js";
+import { neon } from '@neondatabase/serverless';
+import type { NeonQueryFunction } from '@neondatabase/serverless';
+import config from './index.js';
 
 class DatabaseConfig {
   private static instance: DatabaseConfig;
   private sql: NeonQueryFunction<false, false>;
   private constructor() {
-    if (!config.databaseUrl) {
+    if (!config.database_url) {
       throw new Error(
-        "DATABASE_URL is not defined in the environment variables"
+        'DATABASE_URL is not defined in the environment variables',
       );
     }
-    this.sql = neon(`${config.databaseUrl}`);
+    this.sql = neon(`${config.database_url}`);
   }
   static getInstance(): DatabaseConfig {
     if (!DatabaseConfig.instance) {
@@ -31,7 +31,7 @@ class DatabaseConfig {
   }> {
     const startTime = Date.now();
     try {
-      console.log("Testing Database connection");
+      console.log('Testing Database connection');
       const response = await this
         .sql`SELECT version() as db_version,now() as current_time,current_database() as database_name`;
       const latency = Date.now() - startTime;
@@ -40,7 +40,7 @@ class DatabaseConfig {
         current_time: string;
         database_name: string;
       };
-      console.log("Database connection successful!");
+      console.log('Database connection successful!');
       console.log(`Connected to: ${database_name}`);
       console.log(`Response time: ${latency}ms`);
       return {
@@ -56,7 +56,7 @@ class DatabaseConfig {
       return {
         success: false,
         error:
-          error instanceof Error ? error.message : "Database connection failed",
+          error instanceof Error ? error.message : 'Database connection failed',
         latency,
       };
     }
