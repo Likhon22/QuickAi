@@ -15,4 +15,5 @@ export default {
     clerk_publishable_key: process.env.CLERK_PUBLISHABLE_KEY,
     clerk_secret_key: process.env.CLERK_SECRET_KEY,
   },
+  gemini_api_key: process.env.GEMINI_API_KEY,
 };

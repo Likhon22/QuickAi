@@ -1,7 +1,8 @@
 import catchAsync from '../../utils/catchAsync.js';
 import sendResponse from '../../utils/sendResponse.js';
+import aiServices from './ai.service.js';
 
-export const generateArticle = catchAsync(async (req, res) => {
+const generateArticle = catchAsync(async (req, res) => {
   const { userId } = await req.auth();
   const { prompt, length } = req.body;
   const plan = req.plan;
@@ -15,4 +16,17 @@ export const generateArticle = catchAsync(async (req, res) => {
       data: null,
     });
   }
+  const response = await aiServices.generateAIResponse(prompt, length);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'AI content generated successfully',
+    data: response,
+  });
 });
+
+const aiControllers = {
+  generateArticle,
+};
+
+export default aiControllers;

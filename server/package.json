@@ -18,6 +18,7 @@
   "description": "",
   "dependencies": {
     "@clerk/express": "^1.7.24",
+    "@google/genai": "^1.15.0",
     "@neondatabase/serverless": "^1.0.1",
     "@types/compression": "^1.8.1",
     "@types/morgan": "^1.9.10",
@@ -31,9 +32,10 @@
     "helmet": "^8.1.0",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "openai": "^5.15.0",
     "ts-node-dev": "^2.0.0",
     "winston": "^3.17.0",
-    "zod": "^4.0.17"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
