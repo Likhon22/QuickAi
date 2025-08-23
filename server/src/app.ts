@@ -10,6 +10,7 @@ import { morganMiddleware } from './app/middleware/logger.js';
 import globalErrorHandler from './app/middleware/globalErrorHandler.js';
 import notFound from './app/middleware/notFound.js';
 import config from './app/config/index.js';
+import { clerkMiddleware } from '@clerk/express';
 
 export const app: Application = express();
 
@@ -24,6 +25,9 @@ app.use(
     origin: [config.cors_origin as string],
   }),
 );
+
+// Clerk middleware
+app.use(clerkMiddleware());
 // Enable JSON parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

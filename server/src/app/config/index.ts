@@ -11,4 +11,8 @@ export default {
   database_url: process.env.DATABASE_URL,
   rate_limit_max: parseInt(process.env.RATE_LIMIT_MAX || '100', 10),
   rate_limit_window: parseInt(process.env.RATE_LIMIT_WINDOW || '600', 10),
+  clerk: {
+    clerk_publishable_key: process.env.CLERK_PUBLISHABLE_KEY,
+    clerk_secret_key: process.env.CLERK_SECRET_KEY,
+  },
 };
