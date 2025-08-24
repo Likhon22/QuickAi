@@ -15,5 +15,10 @@ routes.post(
   validateRequest(aiValidations.blogValidationSchema),
   aiControllers.generateBlog,
 );
+routes.post(
+  '/generate-image',
+  validateRequest(aiValidations.textToImageValidationSchema),
+  aiControllers.generateImage,
+);
 
 export const AiRoutes = routes;

@@ -1,6 +1,10 @@
 import { clerkClient } from '@clerk/express';
 import DatabaseConfig from '../../config/database.js';
-import { generateContent } from './ai.utils.js';
+import {
+  generateContent,
+  generateImage,
+  sendImageToCloudinary,
+} from './ai.utils.js';
 
 const generateAIResponse = async (
   prompt: string,
@@ -45,7 +49,12 @@ const generateImageResponse = async (
   prompt: string,
   userId: string,
   publish: boolean,
-) => {};
+) => {
+  const db = DatabaseConfig.getInstance().getConnection();
+  const response = await generateImage(prompt);
+  const imageUrl = await sendImageToCloudinary(response);
+  await db`INSERT INTO creations (user_id,prompt, content,type,publish) VALUES (${userId}, ${prompt}, ${imageUrl}, 'image',${publish ?? false})`;
+};
 const aiServices = {
   generateAIResponse,
   generateBlogResponse,

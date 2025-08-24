@@ -11,10 +11,16 @@ const blogValidationSchema = z.object({
     prompt: z.string().min(1, 'Prompt is required'),
   }),
 });
+const textToImageValidationSchema = z.object({
+  body: z.object({
+    prompt: z.string().min(1, 'Prompt is required'),
+  }),
+});
 
 const aiValidations = {
   articleValidationSchema,
   blogValidationSchema,
+  textToImageValidationSchema,
 };
 
 export default aiValidations;
