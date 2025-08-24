@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import axios from 'axios';
 import openai from './ai.constant.js';
+import config from '../../config/index.js';
 
-const generateContent = async (prompt: string, length: number) => {
+export const generateContent = async (prompt: string, length: number) => {
   try {
     const response = await openai.chat.completions.create({
       model: 'gemini-2.0-flash',
@@ -16,4 +18,13 @@ const generateContent = async (prompt: string, length: number) => {
   }
 };
 
-export default generateContent;
+export const generateImage = async (prompt: string) => {
+  const formdata = new FormData();
+  formdata.append('prompt', prompt);
+  await axios.post('https://clipdrop-api.co/cleanup/v1', formdata, {
+    headers: {
+      'x-api-key': config.clipDrop_api_key,
+    },
+    responseType: 'arraybuffer',
+  });
+};

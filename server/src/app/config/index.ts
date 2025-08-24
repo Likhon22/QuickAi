@@ -16,4 +16,5 @@ export default {
     clerk_secret_key: process.env.CLERK_SECRET_KEY,
   },
   gemini_api_key: process.env.GEMINI_API_KEY,
+  clipDrop_api_key: process.env.CLIPDROP_API_KEY,
 };

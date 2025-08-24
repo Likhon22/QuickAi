@@ -7,8 +7,13 @@ const routes = Router();
 
 routes.post(
   '/generate-article',
-  validateRequest(aiValidations.aiValidationSchema),
+  validateRequest(aiValidations.articleValidationSchema),
   aiControllers.generateArticle,
+);
+routes.post(
+  '/generate-blog',
+  validateRequest(aiValidations.blogValidationSchema),
+  aiControllers.generateBlog,
 );
 
 export const AiRoutes = routes;
