@@ -16,7 +16,13 @@ const generateArticle = catchAsync(async (req, res) => {
       data: null,
     });
   }
-  const response = await aiServices.generateAIResponse(prompt, length);
+  const response = await aiServices.generateAIResponse(
+    prompt,
+    length,
+    userId,
+    free_usage,
+    plan ?? 'free',
+  );
   sendResponse(res, {
     statusCode: 200,
     success: true,

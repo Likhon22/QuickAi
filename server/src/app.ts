@@ -11,6 +11,7 @@ import globalErrorHandler from './app/middleware/globalErrorHandler.js';
 import notFound from './app/middleware/notFound.js';
 import config from './app/config/index.js';
 import { clerkMiddleware } from '@clerk/express';
+import routes from './app/route/index.js';
 
 export const app: Application = express();
 
@@ -34,6 +35,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // rate limiter middleware
 app.use(globalRateLimiter);
+
+//application routes
+app.use('/api/v1', routes);
 
 // Test route to check if server is running
 const test = (req: Request, res: Response) => {

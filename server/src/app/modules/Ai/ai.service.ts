@@ -1,7 +1,24 @@
+import { clerkClient } from '@clerk/express';
+import DatabaseConfig from '../../config/database.js';
 import generateContent from './ai.utils.js';
 
-const generateAIResponse = async (prompt: string, length: number) => {
+const generateAIResponse = async (
+  prompt: string,
+  length: number,
+  userId: string,
+  free_usage: number,
+  plan: 'premium' | 'free',
+) => {
+  const db = DatabaseConfig.getInstance().getConnection();
   const response = await generateContent(prompt, length);
+  await db`INSERT INTO creations (user_id,prompt, content,type) VALUES (${userId}, ${prompt}, ${response}, 'article')`;
+  if (plan !== 'premium') {
+    await clerkClient.users.updateUserMetadata(userId, {
+      privateMetadata: {
+        free_usage: free_usage + 1,
+      },
+    });
+  }
   return response;
 };
 

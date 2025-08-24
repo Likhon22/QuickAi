@@ -6,7 +6,7 @@ import aiControllers from './ai.controller.js';
 const routes = Router();
 
 routes.post(
-  '/ai-response',
+  '/generate-article',
   validateRequest(aiValidations.aiValidationSchema),
   aiControllers.generateArticle,
 );
