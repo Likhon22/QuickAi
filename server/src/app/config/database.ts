@@ -62,5 +62,5 @@ class DatabaseConfig {
     }
   }
 }
-
+export const db = DatabaseConfig.getInstance().getConnection();
 export default DatabaseConfig;

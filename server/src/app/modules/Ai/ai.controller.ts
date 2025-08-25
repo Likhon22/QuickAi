@@ -2,6 +2,7 @@ import catchAsync from '../../utils/catchAsync.js';
 import sendResponse from '../../utils/sendResponse.js';
 import aiServices from './ai.service.js';
 
+import type { Express } from 'express';
 const generateArticle = catchAsync(async (req, res) => {
   const { userId } = await req.auth();
   const { prompt, length } = req.body;
@@ -63,6 +64,8 @@ const generateImage = catchAsync(async (req, res) => {
   const { prompt, publish } = req.body;
   const plan = req.plan;
 
+  console.log(plan, prompt, userId, publish);
+
   if (plan !== 'premium') {
     return sendResponse(res, {
       statusCode: 403,
@@ -81,7 +84,59 @@ const generateImage = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Blog generated successfully',
+    message: 'Image generated successfully',
+    data: response,
+  });
+});
+const removeBackground = catchAsync(async (req, res) => {
+  const { userId } = await req.auth();
+  const image = req.file as Express.Multer.File;
+  const plan = req.plan;
+
+  if (plan !== 'premium') {
+    return sendResponse(res, {
+      statusCode: 403,
+      success: false,
+      message:
+        'Image generation is available for premium users only. Please upgrade your plan.',
+      data: null,
+    });
+  }
+  const response = await aiServices.removeBackgroundImageResponse(
+    image,
+    userId,
+  );
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Background removed successfully',
+    data: response,
+  });
+});
+const removeObject = catchAsync(async (req, res) => {
+  const { userId } = await req.auth();
+  const image = req.file as Express.Multer.File;
+  const plan = req.plan;
+  const object = req.body?.object;
+
+  if (plan !== 'premium') {
+    return sendResponse(res, {
+      statusCode: 403,
+      success: false,
+      message:
+        'Image generation is available for premium users only. Please upgrade your plan.',
+      data: null,
+    });
+  }
+  const response = await aiServices.removeObjectFromImage(
+    image,
+    userId,
+    object,
+  );
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Background removed successfully',
     data: response,
   });
 });
@@ -90,6 +145,8 @@ const aiControllers = {
   generateArticle,
   generateBlog,
   generateImage,
+  removeBackground,
+  removeObject,
 };
 
 export default aiControllers;

@@ -25,7 +25,7 @@ export const generateImage = async (prompt: string) => {
     const formdata = new FormData();
     formdata.append('prompt', prompt);
     const { data } = await axios.post(
-      'https://clipdrop-api.co/cleanup/v1',
+      'https://clipdrop-api.co/text-to-image/v1',
       formdata,
       {
         headers: {
@@ -37,6 +37,8 @@ export const generateImage = async (prompt: string) => {
     const base64Image = `data:image/png;base64,${Buffer.from(data, 'binary').toString('base64')}`;
     return base64Image;
   } catch (err: any) {
+    console.log(err);
+
     throw new Error('Image generation failed', err);
   }
 };
