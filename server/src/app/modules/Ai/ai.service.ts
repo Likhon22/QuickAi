@@ -6,9 +6,12 @@ import {
   sendImageToCloudinary,
 } from './ai.utils.js';
 
+import pdf from 'pdf-parse';
+import fs from 'fs';
 import type { Express } from 'express';
 import { v2 as cloudinary } from 'cloudinary';
 import connectCloudinary from '../../config/cloudinary.js';
+import { resumePrompt } from './ai.constant.js';
 const generateAIResponse = async (
   prompt: string,
   length: number,
@@ -107,12 +110,36 @@ const removeObjectFromImage = async (
   await db`INSERT INTO creations (user_id,prompt, content,type) VALUES (${userId}, ${`remove ${object} from image`}, ${image_url}, 'image')`;
   return image_url;
 };
+const resumeReviewResponse = async (
+  resume: Express.Multer.File,
+  userId: string,
+) => {
+  if (!resume) {
+    throw new Error('No image file provided');
+  }
+
+  if (!resume.path) {
+    throw new Error('Image file path is missing');
+  }
+  if (!resume.mimetype.includes('pdf')) {
+    throw new Error('Only PDF files are supported for resume review');
+  }
+  const dataBuffer = fs.readFileSync(resume.path);
+  const pdfData = await pdf(dataBuffer);
+  const prompt = `${resumePrompt} resume content:${pdfData.text}`;
+  const response = await generateContent(prompt, 500);
+  await db`INSERT INTO creations (user_id,prompt, content,type) VALUES (${userId}, ${resumePrompt}, ${response}, 'image')`;
+  // clean up uploaded file
+  fs.unlinkSync(resume.path);
+  return response;
+};
 const aiServices = {
   generateAIResponse,
   generateBlogResponse,
   generateImageResponse,
   removeBackgroundImageResponse,
   removeObjectFromImage,
+  resumeReviewResponse,
 };
 
 export default aiServices;

@@ -141,12 +141,47 @@ const removeObject = catchAsync(async (req, res) => {
   });
 });
 
+const resumeReview = catchAsync(async (req, res) => {
+  const { userId } = await req.auth();
+
+  const plan = req.plan;
+  const resume = req.file as Express.Multer.File;
+  if (plan !== 'premium') {
+    return sendResponse(res, {
+      statusCode: 403,
+      success: false,
+      message:
+        'Image generation is available for premium users only. Please upgrade your plan.',
+      data: null,
+    });
+  }
+
+  if (resume.size > 5 * 1024 * 1024) {
+    return sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: 'File size exceeds the 5MB limit.',
+      data: null,
+    });
+  }
+  
+
+  const response = await aiServices.resumeReviewResponse(resume, userId);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Background removed successfully',
+    data: response,
+  });
+});
+
 const aiControllers = {
   generateArticle,
   generateBlog,
   generateImage,
   removeBackground,
   removeObject,
+  resumeReview,
 };
 
 export default aiControllers;

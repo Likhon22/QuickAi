@@ -33,5 +33,9 @@ routes.post(
   upload.single('image'),
   aiControllers.removeObject,
 );
-
+routes.post(
+  '/resume-review',
+  upload.single('resume'),
+  aiControllers.resumeReview,
+);
 export const AiRoutes = routes;
