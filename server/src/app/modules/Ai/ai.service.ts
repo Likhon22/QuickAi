@@ -129,7 +129,6 @@ const resumeReviewResponse = async (
   const extractedText = pdfData?.pages?.map(page =>
     page.content.map(item => item.str).join(' '),
   );
-  console.log(extractedText);
 
   const prompt = `${resumePrompt} resume content:${extractedText}`;
 
@@ -139,6 +138,7 @@ const resumeReviewResponse = async (
   fs.unlinkSync(resume.path);
   return response;
 };
+
 const aiServices = {
   generateAIResponse,
   generateBlogResponse,
