@@ -5,8 +5,7 @@ import {
   generateImage,
   sendImageToCloudinary,
 } from './ai.utils.js';
-
-import pdf from 'pdf-parse';
+import { PDFExtract } from 'pdf.js-extract';
 import fs from 'fs';
 import type { Express } from 'express';
 import { v2 as cloudinary } from 'cloudinary';
@@ -124,9 +123,16 @@ const resumeReviewResponse = async (
   if (!resume.mimetype.includes('pdf')) {
     throw new Error('Only PDF files are supported for resume review');
   }
-  const dataBuffer = fs.readFileSync(resume.path);
-  const pdfData = await pdf(dataBuffer);
-  const prompt = `${resumePrompt} resume content:${pdfData.text}`;
+
+  const pdfExtract = new PDFExtract();
+  const pdfData = await pdfExtract.extract(resume.path, {});
+  const extractedText = pdfData?.pages?.map(page =>
+    page.content.map(item => item.str).join(' '),
+  );
+  console.log(extractedText);
+
+  const prompt = `${resumePrompt} resume content:${extractedText}`;
+
   const response = await generateContent(prompt, 500);
   await db`INSERT INTO creations (user_id,prompt, content,type) VALUES (${userId}, ${resumePrompt}, ${response}, 'image')`;
   // clean up uploaded file

@@ -146,6 +146,7 @@ const resumeReview = catchAsync(async (req, res) => {
 
   const plan = req.plan;
   const resume = req.file as Express.Multer.File;
+
   if (plan !== 'premium') {
     return sendResponse(res, {
       statusCode: 403,
@@ -164,13 +165,12 @@ const resumeReview = catchAsync(async (req, res) => {
       data: null,
     });
   }
-  
 
   const response = await aiServices.resumeReviewResponse(resume, userId);
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Background removed successfully',
+    message: 'Resume reviewed successfully',
     data: response,
   });
 });
