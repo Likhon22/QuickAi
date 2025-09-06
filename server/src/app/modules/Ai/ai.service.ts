@@ -11,6 +11,7 @@ import type { Express } from 'express';
 import { v2 as cloudinary } from 'cloudinary';
 import connectCloudinary from '../../config/cloudinary.js';
 import { resumePrompt } from './ai.constant.js';
+import ApiError from '../../error/ApiError.js';
 const generateAIResponse = async (
   prompt: string,
   length: number,
@@ -64,11 +65,11 @@ const removeBackgroundImageResponse = async (
 ) => {
   await connectCloudinary();
   if (!image) {
-    throw new Error('No image file provided');
+    throw new ApiError(401, 'No image file provided');
   }
 
   if (!image.path) {
-    throw new Error('Image file path is missing');
+    throw new ApiError(401, 'Image file path is missing');
   }
 
   const { secure_url } = await cloudinary.uploader.upload(image.path, {
@@ -89,11 +90,11 @@ const removeObjectFromImage = async (
 ) => {
   await connectCloudinary();
   if (!image) {
-    throw new Error('No image file provided');
+    throw new ApiError(401, 'No image file provided');
   }
 
   if (!image.path) {
-    throw new Error('Image file path is missing');
+    throw new ApiError(401, 'Image file path is missing');
   }
   const { public_id } = await cloudinary.uploader.upload(image.path);
   const image_url = cloudinary.url(public_id, {
@@ -114,14 +115,14 @@ const resumeReviewResponse = async (
   userId: string,
 ) => {
   if (!resume) {
-    throw new Error('No image file provided');
+    throw new ApiError(401, 'No image file provided');
   }
 
   if (!resume.path) {
-    throw new Error('Image file path is missing');
+    throw new ApiError(401, 'Image file path is missing');
   }
   if (!resume.mimetype.includes('pdf')) {
-    throw new Error('Only PDF files are supported for resume review');
+    throw new ApiError(401, 'Only PDF files are supported for resume review');
   }
 
   const pdfExtract = new PDFExtract();
