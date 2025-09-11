@@ -11,8 +11,16 @@ import ReviewResume from "./pages/ReviewResume";
 import { ScrollTrigger } from "gsap/all";
 import gsap from "gsap";
 
+import { useAuth } from "@clerk/clerk-react";
+import { useEffect } from "react";
+
 gsap.registerPlugin(ScrollTrigger);
+
 const App = () => {
+  const { getToken } = useAuth();
+  useEffect(() => {
+    getToken().then((token) => console.log(token));
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Home />} />

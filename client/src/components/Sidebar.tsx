@@ -16,6 +16,7 @@ type TNavItem = {
   to: string;
   label: string;
   Icon: React.ElementType;
+  end?: boolean;
 };
 type TSidebarProps = {
   sidebar: boolean;
@@ -30,6 +31,8 @@ const Sidebar = ({ sidebar, setSidebar }: TSidebarProps) => {
       to: "/ai",
       label: "Dashboard",
       Icon: House,
+
+      end: true,
     },
     {
       to: "/ai/write-article",
@@ -87,6 +90,7 @@ const Sidebar = ({ sidebar, setSidebar }: TSidebarProps) => {
           <NavLink
             key={item.to}
             to={item.to}
+            end={item.end}
             className={({ isActive }) =>
               `flex items-center p-2 text-gray-600 hover:bg-gray-100 ${
                 isActive
